@@ -1,0 +1,7 @@
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:6:6:CAN_HW_Init	5
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:43:12:CAN_HW_SendFrame	3
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:72:6:HAL_CAN_TxMailbox0CompleteCallback	3
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:81:6:HAL_CAN_TxMailbox0AbortCallback	3
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:91:6:HAL_CAN_RxFifo0MsgPendingCallback	1
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:101:6:HAL_CAN_RxFifo0FullCallback	1
+../Drivers/CAN_LIB/src/CAN_LIB_HW.c:105:6:HAL_CAN_ErrorCallback	5

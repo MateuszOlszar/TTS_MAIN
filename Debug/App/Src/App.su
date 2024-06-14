@@ -1,0 +1,6 @@
+../App/Src/App.c:55:6:App_Init	8	static
+../App/Src/App.c:79:6:InitFunc	72	static
+../App/Src/App.c:112:6:OpFunc	24	static
+../App/Src/App.c:158:6:CalibFunc	80	static
+../App/Src/App.c:201:6:ParseCalibData	16	static
+../App/Src/App.c:221:9:AvreageTemp	24	static

@@ -1,0 +1,6 @@
+../App/Src/MLX90621_I2C_Driver.c:26:6:MLX90621_I2CInit	4	static
+../App/Src/MLX90621_I2C_Driver.c:30:5:MLX90621_I2CReadEEPROM	32	static
+../App/Src/MLX90621_I2C_Driver.c:47:5:MLX90621_I2CRead	32	static
+../App/Src/MLX90621_I2C_Driver.c:67:6:MLX90621_I2CFreqSet	16	static
+../App/Src/MLX90621_I2C_Driver.c:73:12:MLX90621_I2CRead_Polling	192	static
+../App/Src/MLX90621_I2C_Driver.c:95:5:MLX90621_I2CWrite	40	static
