@@ -11,7 +11,10 @@
 #include "FLASH_Handler.h"
 
 #define EMISSIVITY 0.98f
+
 #define ID_BASE 0x069
+#define ID_CALIB_REQ	0x729
+
 extern CAN_HandleTypeDef hcan;
 
 AppState_t _state;
@@ -84,7 +87,7 @@ void InitFunc()
 		CAN_InitFrame(&ramka[i], &hcan, ID_BASE+i, 100, 8);
 	}
 	CAN_InitFrame(&tire_data_frame, &hcan, ID_BASE, 100, 8);
-	CAN_InitFrame(&calib_data_frame, &hcan, 0x729, 1000, 8);
+	CAN_InitFrame(&calib_data_frame, &hcan, ID_CALIB_REQ, 1000, 8);
 	MLX90621_DumpEE(mlxee);
 	MLX90621_ExtractParameters(mlxee, &params);
 	MLX90621_GetConfiguration(&cfgReg);
@@ -107,6 +110,20 @@ void InitFunc()
 	memcpy(outer_idx, (uint8_t*)buf + 28, 14);
 
 	_state = Operational;
+}
+
+void SendTemp(uint16_t* inner_temps, uint16_t* middle_temps, uint16_t* outer_temps)
+{
+	memcpy(&tire_data_frame.core.data[0], inner_temps, 2);
+	memcpy(&tire_data_frame.core.data[2], middle_temps, 2);
+	memcpy(&tire_data_frame.core.data[4], outer_temps, 2);
+
+	tire_data_frame.core.data[7] = _state;
+//	tire_data_frame.core.data[2] = inner_temps;
+//	tire_data_frame.core.data[4] = middle_temps;
+//	tire_data_frame.core.data[6] = outer_temps;
+	HAL_Delay(100);
+	CAN_SendFrame(&tire_data_frame);
 }
 
 void OpFunc()
@@ -142,13 +159,16 @@ void OpFunc()
 	outer_temp = AvreageTemp(outer_idx, temp);
 	middle_temp = AvreageTemp(middle_idx, temp);
 
-
+	SendTemp(&inner_temp, &middle_temp, &outer_temp);
 
 	HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 
 	if(calib_data_frame.recieve_time_ms != lastCalibFrameTime)
 	{
 		lastCalibFrameTime = calib_data_frame.recieve_time_ms;
+		memset(inner_idx, 0, sizeof(inner_idx));
+		memset(middle_idx, 0, sizeof(middle_idx));
+		memset(outer_idx, 0, sizeof(outer_idx));
 		_state = Calibration;
 	}
 
